@@ -31,9 +31,8 @@
 - [山菜](https://github.com/sansai0707)([Twitter](https://twitter.com/sansai_yukkuri))/([YouTube](https://youtube.com/channel/UCj1SxnfqEKlnwXkhCG_VZ7w))
 - [ハロン](https://github.com/Haroweeeeen)(Twitter)/(YouTube)
 - [シャンパン](https://github.com/Shanpan2)([Twitter](https://twitter.com/shanpanus?s=21&t=VkDFSOnM3bkZQ7Rdw1vNHA))/(YouTube)
-- [れもんず](https://github.com/remons123)([Twitter](https://twitter.com/abcremons))　※役職説明の加筆のみ
 ## 開発協力者
-
+- [れもんず](https://github.com/remons123)([Twitter](https://twitter.com/abcremons))　※役職説明の加筆
 ## 内容
 ### コマンド
 |キー  |コマンドの内容                            |
