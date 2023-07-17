@@ -3,7 +3,9 @@ using BepInEx.Configuration;
 using BepInEx.IL2CPP;
 using HarmonyLib;
 using Hazel;
+using RevolutionaryHostRoles.Patches;
 using RevolutionaryHostRoles.Roles;
+using RevolutionaryHostRoles;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -12,6 +14,8 @@ using System.Reflection;
 using UnhollowerBaseLib;
 using UnityEngine;
 using UnityEngine.Networking.Types;
+using Rewired.Libraries.SharpDX.RawInput;
+using System.Text.RegularExpressions;
 
 namespace RevolutionaryHostRoles
 {
@@ -63,20 +67,28 @@ namespace RevolutionaryHostRoles
             var indexdate = UnityEngine.Random.Range(0, list.Count);
             return list[indexdate];
         }
-        public static bool IsCrew(this PlayerControl p)
+
+        public static string cs(Color c, string s)
         {
-            return !p.Data.Role.IsImpostor;
+            return string.Format("<color=#{0:X2}{1:X2}{2:X2}{3:X2}>{4}</color>", ToByte(c.r), ToByte(c.g), ToByte(c.b), ToByte(c.a), s);
         }
-        public static bool IsImpostor(this PlayerControl p)
+
+        private static byte ToByte(float f)
         {
-            return p.Data.Role.IsImpostor;
+            f = Mathf.Clamp01(f);
+            return (byte)(f * 255);
         }
-        public static bool IsRole(this PlayerControl p, CustomRoleId role, bool IsChache = true)
+        public static PlayerControl playerById(byte id)
         {
-            CustomRoleId MyRole;
-            MyRole = p.GetRole();
-            return MyRole == role;
+            foreach (PlayerControl player in CachedPlayer.AllPlayers)
+                if (player.PlayerId == id)
+                    return player;
+            return null;
         }
+    }
+    //ロールに関するやつ
+    public static class PlayerHelper
+    {
         public static bool IsAlive(this PlayerControl p)
         {
             return !p.Data.IsDead;
@@ -85,10 +97,47 @@ namespace RevolutionaryHostRoles
         {
             return p.Data.IsDead;
         }
+        public static bool IsCrew(this PlayerControl p)
+        {
+            return !p.Data.Role.IsImpostor;
+        }
+        public static bool IsImpostor(this PlayerControl p)
+        {
+            return p.Data.Role.IsImpostor;
+        }
+        public static bool IsLastImpostor(this PlayerControl p)
+        {
 
+            foreach (CachedPlayer player in CachedPlayer.AllPlayers)
+            {
+                //もしplayerが生きてるandインポスターand(PlayerControl)pじゃないプレイヤーがいるならreturn false;
+                if (player.PlayerControl.IsAlive() && player.PlayerControl.IsImpostor() && player.PlayerControl.PlayerId != p.PlayerId)
+                {
+                    return false;
+                }
+                //それ以外ならOK!!true
+                else
+                {
+                    return true;
+                }
+            }
+            return true;
+        }
+        public static bool IsRole(this PlayerControl p, CustomRoleId role)
+        {
+            CustomRoleId MyRole;
+            MyRole = p.GetRole();
+            return MyRole == role;
+        }
         public static CustomRoleId GetRole(this PlayerControl p)
         {
             if (RoleDatas.Tricker.TrickerPlayer.IsCheckListPlayerControl(p)) return CustomRoleId.Tricker;
+            else if (RoleDatas.Bait.BaitPlayer.IsCheckListPlayerControl(p)) return CustomRoleId.Bait;
+            else if (RoleDatas.SecretlyKiller.SecretlyKillerPlayer.IsCheckListPlayerControl(p)) return CustomRoleId.SecretlyKiller;
+            else if (RoleDatas.UnderDog.UnderDogPlayer.IsCheckListPlayerControl(p)) return CustomRoleId.UnderDog;
+            else if (RoleDatas.Mafia.MafiaPlayer.IsCheckListPlayerControl(p)) return CustomRoleId.Mafia;
+
+            //MODの役職
             else return CustomRoleId.NormalRoles;
         }
         public static bool IsCheckListPlayerControl(this List<PlayerControl> ListDate, PlayerControl CheckPlayer)
@@ -122,14 +171,34 @@ namespace RevolutionaryHostRoles
         }
         public static string RoleName(this PlayerControl p)
         {
-            if (RoleDatas.Tricker.TrickerPlayer.IsCheckListPlayerControl(p)) return "<color=#ff0000>トリッカー</color>";
-            else
+            switch (p.GetRole())
             {
-                if (p.IsCrew())
-                    return "<color=#00ffff>クルーメイト</color>";
-                else if (p.IsImpostor())
-                    return "<color=#ff0000>インポスター</color>";
-                else return "例外きたあああああああああ";
+                case CustomRoleId.Tricker:
+                    return "<color=#ff0000>トリッカー</color>";
+                case CustomRoleId.Bait:
+                    return "<color=yellow>ベイト</color>";
+                case CustomRoleId.SecretlyKiller:
+                    return "<color=red>シークレットリーキラー</color>";
+                case CustomRoleId.UnderDog:
+                    return "<color=red>アンダードッグ</color>";
+                case CustomRoleId.Mafia:
+                    return Helpers.cs(Color.red, "マフィア");
+                //RoleNameText
+                default:
+                    switch (p.Data.RoleType)
+                    {
+                        case AmongUs.GameOptions.RoleTypes.Crewmate:
+                            return "<color=#00FFFF>クルーメイト</color>";
+                        case AmongUs.GameOptions.RoleTypes.Engineer:
+                            return "<color=#1e90ff>エンジニア</color>";
+                        case AmongUs.GameOptions.RoleTypes.Scientist:
+                            return "<color=#7fff00>科学者</color>";
+                        case AmongUs.GameOptions.RoleTypes.Impostor:
+                            return "<color=#FF0000>インポスター</color>";
+                        case AmongUs.GameOptions.RoleTypes.Shapeshifter:
+                            return "<color=#FF0000>シェイプシフター</color>";
+                        default: return "<color=#ffff00>守護天使</color>";
+                    }
             }
         }
 
@@ -149,10 +218,55 @@ namespace RevolutionaryHostRoles
             if (TargetPlayer == null || NewName == null || !AmongUsClient.Instance.AmHost) return;
             if (SeePlayer == null) SeePlayer = TargetPlayer;
             var clientId = SeePlayer.GetClientId();
-            MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(TargetPlayer.NetId, (byte)RpcCalls.SetName, SendOption.Reliable, clientId);
-            writer.Write(NewName);
-            AmongUsClient.Instance.FinishRpcImmediately(writer);
+                MessageWriter writers = AmongUsClient.Instance.StartRpcImmediately(TargetPlayer.NetId, (byte)RpcCalls.SetName, SendOption.Reliable, -1);
+                writers.Write(NewName);
+                AmongUsClient.Instance.FinishRpcImmediately(writers);
         }
         /*=====================ykundesuさんありがとうございます！！！=========================*/
+        public static void RpcMurderPrivate(this PlayerControl TargetPlayer,PlayerControl SeePlayer = null)
+        {
+            if (TargetPlayer == null || !AmongUsClient.Instance.AmHost) return;
+            List<PlayerControl> AllPlayers = new();
+            foreach (PlayerControl p in CachedPlayer.AllPlayers)
+            {
+                if (p.PlayerId == TargetPlayer.PlayerId)
+                {
+
+                }
+                else
+                {
+                    AllPlayers.Add(p);
+                }
+            }
+            foreach (PlayerControl AllPlayer in AllPlayers)
+                if (SeePlayer == null) SeePlayer = AllPlayer;
+            var clientId = SeePlayer.GetClientId();
+            MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(TargetPlayer.NetId, (byte)RpcCalls.MurderPlayer, SendOption.Reliable, clientId);
+            writer.Write(TargetPlayer);
+            AmongUsClient.Instance.FinishRpcImmediately(writer);
+        }
+    }
+    public static class ModeHelper
+    {
+        
+        public static CustomPlusModeId GetMode()
+        {
+            if (CustomOptionHolder.NotButton.GetBool())
+            {
+                return CustomPlusModeId.NotButton;
+            }
+            if (CustomOptionHolder.NotReport.GetBool())
+            {
+                return CustomPlusModeId.NotReport;
+            }
+            else return CustomPlusModeId.No;
+        }
+        public static bool IsMode(CustomPlusModeId Mode)
+        {
+            CustomPlusModeId ThisMode;
+            ThisMode = GetMode();
+            return ThisMode == Mode;
+        }
+        
     }
 }
