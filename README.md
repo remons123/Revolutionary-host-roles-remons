@@ -12,17 +12,26 @@
 [discord](https://discord.gg/KC3G57CWeU)
 
 ## クレジット
-- [TheOtherRoles](https://github.com/TheOtherRolesAU/TheOtherRoles) このMODが無ければRHRは作れていません(LoadSpriteFromResourcesやCustomOption、ToByte、RoleAssignment、CustomRpcやそれ以上にソースコードをお借りしています)！！そして、マフィアのアイデア元になっています！！！[TheOtherRolesAU](https://github.com/TheOtherRolesAU)さんや、その他開発者さんありがとうございます！！！！
+- [TheOtherRoles](https://github.com/TheOtherRolesAU/TheOtherRoles) このMODが無ければRHRは作れていません。
+(LoadSpriteFromResourcesやCustomOption、ToByte、RoleAssignment、CustomRpcやそれ以上にソースコードをお借りしています)！！
+そして、マフィアのアイデア元になっています！！！
+[TheOtherRolesAU](https://github.com/TheOtherRolesAU)さんや、その他開発者さんありがとうございます！！！！
 
-- [SuperNewRoles](https://github.com/ykundesu/SuperNewRoles) こちらも[TheOtherRoles](https://github.com/TheOtherRolesAU/TheOtherRoles)同様、沢山のソースコードを参考、お借りしています！！！(RpcSetNamePrivate、SyncSetting)、そして、シークレットリーキラーのアイデア元です！！！、[ykundesu](https://github.com/ykundesu)さんや、その他SNR開発者さんありがとうございます！！！
+- [SuperNewRoles](https://github.com/ykundesu/SuperNewRoles)
+- こちらも[TheOtherRoles](https://github.com/TheOtherRolesAU/TheOtherRoles)同様、沢山のソースコードを参考、お借りしています！！！
+- (RpcSetNamePrivate、SyncSetting)、そして、シークレットリーキラーのアイデア元です！！！
+- [ykundesu](https://github.com/ykundesu)さんや、その他SNR開発者さんありがとうございます！！！
 
-- [TownOfHost](https://github.com/tukasa0001/TownOfHost) LateTaskやCustomRpcSenderをお借りしました！！！[tukasa0001](https://github.com/tukasa0001)さんや、TOHの開発者さんさんありがとうございます！！！
+- [TownOfHost](https://github.com/tukasa0001/TownOfHost) LateTaskやCustomRpcSenderをお借りしました！！！
+- [tukasa0001](https://github.com/tukasa0001)さんや、TOHの開発者さんさんありがとうございます！！！
 
-- [TownOfUs](https://github.com/slushiegoose/Town-Of-Us) アンダードッグのアイデア元です！[slushiegoose](https://github.com/slushiegoose)さんや、その他の開発者さんありがとうございます！！
+- [TownOfUs](https://github.com/slushiegoose/Town-Of-Us) アンダードッグのアイデア元です！
+- [slushiegoose](https://github.com/slushiegoose)さんや、その他の開発者さんありがとうございます！！
 ## 開発者
 - [山菜](https://github.com/sansai0707)([Twitter](https://twitter.com/sansai_yukkuri))/([YouTube](https://youtube.com/channel/UCj1SxnfqEKlnwXkhCG_VZ7w))
 - [ハロン](https://github.com/Haroweeeeen)(Twitter)/(YouTube)
 - [シャンパン](https://github.com/Shanpan2)([Twitter](https://twitter.com/shanpanus?s=21&t=VkDFSOnM3bkZQ7Rdw1vNHA))/(YouTube)
+- [れもんず](https://github.com/remons123)([Twitter](https://twitter.com/abcremons))　※役職説明の加筆のみ
 ## 開発協力者
 
 ## 内容
