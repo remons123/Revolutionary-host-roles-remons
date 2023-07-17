@@ -19,8 +19,8 @@
 
 - [SuperNewRoles](https://github.com/ykundesu/SuperNewRoles)
 こちらも[TheOtherRoles](https://github.com/TheOtherRolesAU/TheOtherRoles)同様、沢山のソースコードを参考、お借りしています！！！
-- (RpcSetNamePrivate、SyncSetting)、そして、シークレットリーキラーのアイデア元です！！！
-- [ykundesu](https://github.com/ykundesu)さんや、その他SNR開発者さんありがとうございます！！！
+(RpcSetNamePrivate、SyncSetting)、そして、シークレットリーキラーのアイデア元です！！！
+[ykundesu](https://github.com/ykundesu)さんや、その他SNR開発者さんありがとうございます！！！
 
 - [TownOfHost](https://github.com/tukasa0001/TownOfHost) LateTaskやCustomRpcSenderをお借りしました！！！
 - [tukasa0001](https://github.com/tukasa0001)さんや、TOHの開発者さんさんありがとうございます！！！
