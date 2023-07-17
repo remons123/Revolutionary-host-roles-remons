@@ -18,7 +18,7 @@
 [TheOtherRolesAU](https://github.com/TheOtherRolesAU)さんや、その他開発者さんありがとうございます！！！！
 
 - [SuperNewRoles](https://github.com/ykundesu/SuperNewRoles)
-- こちらも[TheOtherRoles](https://github.com/TheOtherRolesAU/TheOtherRoles)同様、沢山のソースコードを参考、お借りしています！！！
+こちらも[TheOtherRoles](https://github.com/TheOtherRolesAU/TheOtherRoles)同様、沢山のソースコードを参考、お借りしています！！！
 - (RpcSetNamePrivate、SyncSetting)、そして、シークレットリーキラーのアイデア元です！！！
 - [ykundesu](https://github.com/ykundesu)さんや、その他SNR開発者さんありがとうございます！！！
 
